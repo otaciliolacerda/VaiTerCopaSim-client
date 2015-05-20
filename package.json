@@ -1,9 +1,9 @@
 {
-  "name": "angular-seed",
+  "name": "VaiTerCopaSim-client",
   "private": true,
   "version": "0.0.0",
-  "description": "A starter project for AngularJS",
-  "repository": "https://github.com/angular/angular-seed",
+  "description": "VaiTerCopaSim client app",
+  "repository": "https://github.com/otaciliolacerda/VaiTerCopaSim-client",
   "license": "MIT",
   "devDependencies": {
     "karma": "~0.10",
