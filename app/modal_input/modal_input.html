@@ -1,0 +1,23 @@
+<div class="modal-header">
+    <h3 class="modal-title">Add stickers!</h3>
+ </div>
+
+<div class="modal-body">
+    Type in the textbox below the numbers of the stickers (use commas, spaces or dashes between numbers) and click in the button of your choice to add them. {{input}}
+    <br/><p/><br/>
+
+    <div>
+        <textarea rows="6" ng-model="input" class="form-control input-lg" id="textarea_sticker_numbers" style="resize:none;" placeholder="Ex.: 1, 2, 3, 31, 4, L1"></textarea>
+    </div>
+
+</div>
+
+<div class="modal-footer">
+
+    <div class="text-center">
+        <button type="button" class="btn btn-sm btn-success" ng-click="add_duplicated_sticker()">Add to duplicated stickers!</button>
+        <button type="button" class="btn btn-sm btn-warning" ng-click="add_missing_sticker()">Add to missing stickers!</button>
+        <button type="button" class="btn btn-sm btn-danger pull-right" ng-click="close()">Cancel</button>
+    </div>
+
+</div>

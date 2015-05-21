@@ -1,6 +1,6 @@
 'use strict';
 
-var dashboard = angular.module('myApp.dashboard', ['ngRoute']);
+var dashboard = angular.module('myApp.dashboard', ['ngRoute', 'myApp.modalInput']);
 
 dashboard.config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/dashboard', {
