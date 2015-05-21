@@ -19,6 +19,10 @@ dashboard.controller('DashboardCtrl', ["$scope", '$http', function($scope, $http
         $http.get('http://0.0.0.0:8000/api/v1/sticker/1/needed/').success(function(data){
             $scope.needed_stickers = data;
         });
+
+        $http.get('http://0.0.0.0:8000/api/v1/sticker/1/statistics/').success(function(data){
+            $scope.stats = data;
+        });
     };
 
     $scope.refresh();
@@ -42,8 +46,7 @@ dashboard.directive("stats", function() {
         restrict: 'E',
         templateUrl: "dashboard/partials/stats.html",
         scope: {
-            text: "=",
-            stickers: "="
+            data: "="
         }
     };
 });

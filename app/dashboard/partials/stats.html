@@ -2,16 +2,16 @@
     <h1>Stats</h1>
 
     <div id="div_stats_container">
-        <p>If you did not forget anything you have <strong><span id="total_stickers_collected">{{ stats.colleted }}</span></strong> stickers!</p>
+        <p>If you did not forget anything you have <strong><span id="total_stickers_collected">{{ data.collected }}</span></strong> stickers!</p>
 
         <h5>Missing stickers</h5>
-        <ul ng-repeat="s in teams">
+        <ul ng-repeat="(team, qty) in data.teams">
 
-            <li id="li_stats_{{ s }}">
-                <strong> {{ s }}: </strong>
-                <span ng-show="s.team == 0" class="stat_value" style="color:green;"><strong>Complete!</strong></span>
-                <span ng-show="s.team == 1" class="stat_value">There is only <strong>1</strong> sticker missing!!</span>
-                <span ng-show="s.team != 0 & s.team != 1" class="stat_value">There are <strong>{{ s }}</strong> stickers missing.</span>
+            <li id="li_stats_{{ team }}">
+                <strong> {{ team }}: </strong>
+                <span ng-show="qty == 0" class="stat_value" style="color:green;"><strong>Complete!</strong></span>
+                <span ng-show="qty == 1" class="stat_value">There is only <strong>1</strong> sticker missing!!</span>
+                <span ng-show="qty != 0 && qty != 1" class="stat_value">There are <strong>{{ qty }}</strong> stickers missing.</span>
             </li>
 
         </ul>
