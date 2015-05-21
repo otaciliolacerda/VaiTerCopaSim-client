@@ -11,11 +11,17 @@ dashboard.config(['$routeProvider', function($routeProvider) {
 
 dashboard.controller('DashboardCtrl', ["$scope", '$http', function($scope, $http) {
 
-    $http.get('http://0.0.0.0:8000/api/v1/sticker/1/needed/').success(function(data){
-        $scope.duplicated_stickers = data;
-    });
+    $scope.refresh = function() {
+        $http.get('http://0.0.0.0:8000/api/v1/sticker/1/duplicated/').success(function(data){
+            $scope.duplicated_stickers = data;
+        });
 
-    $scope.needed_stickers = [{"user": "1", "sticker": "2", "quantity":"3", "image": "J1.jpg"}];
+        $http.get('http://0.0.0.0:8000/api/v1/sticker/1/needed/').success(function(data){
+            $scope.needed_stickers = data;
+        });
+    };
+
+    $scope.refresh();
 
     $scope.stats = [];
 }]);

@@ -4,9 +4,9 @@
     <div ng-repeat="obj in data">
 
         <div id="div_dupes_stickers_container" class="stickers_container">
-            <div class="sticker_placeholder" data-number="{{ obj.sticker.id }}">
+            <div class="sticker_placeholder">
                 <div class="sticker_image_placeholder">
-                    <button class="btn btn-sm btn-danger btn_delete_sticker" data-number="{{ obj.sticker.id }}" data-type="dupes">
+                    <button class="btn btn-sm btn-danger btn_delete_sticker" data-number="{{ obj.sticker.number }}">
                         <span class="glyphicon glyphicon-trash"></span>
                     </button>
                     <img class="sticker_image" ng-src="{{ 'stickers/'+ obj.sticker.image }}" width="100" height="131">
@@ -15,7 +15,7 @@
 
                 </div>
                 <div style="text-align: center;">
-                    <label class="sticker_number">{{ obj.sticker.id }}</label>
+                    <label class="sticker_number">{{ obj.sticker.number }}</label>
                 </div>
             </div>
         </div>

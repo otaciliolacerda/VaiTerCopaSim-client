@@ -27,14 +27,20 @@ modal.controller('ModalInstanceCtrl', ['$scope', '$modalInstance', '$http',
 
     $scope.add_duplicated_sticker = function () {
         var param = parse_input();
-        $http.post('http://0.0.0.0:8000/api/v1/sticker/1/needed/?stickers=' + param);
+        $http.post('http://0.0.0.0:8000/api/v1/sticker/1/duplicated/?stickers=' + param).success(function() {
+            $scope.close();
+        });
     };
 
-    $scope.add_missing_sticker = function () {
-        $modalInstance.dismiss('cancel');
+    $scope.add_needed_sticker = function () {
+        var param = parse_input();
+        $http.post('http://0.0.0.0:8000/api/v1/sticker/1/needed/?stickers=' + param).success(function() {
+            $scope.close();
+        });
     };
 
     $scope.close = function() {
         $modalInstance.dismiss('cancel');
+        $scope.input = '';
     };
 }]);
