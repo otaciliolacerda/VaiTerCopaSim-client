@@ -21,7 +21,6 @@ modal.controller('ModalInstanceCtrl', ['$scope', '$modalInstance', '$http',
 
     var parse_input = function() {
         var input_val = $scope.input;
-        console.log(input_val);
         var tokens = input_val.split(/[\s,\-]+|\(\d+\)/);
         return tokens.join(',');
     };
