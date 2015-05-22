@@ -1,11 +1,13 @@
-<div class="text-center" ng-controller="ModalCtrl">
-    <button type="button" class="btn btn-primary btn-lg" id="btn_add_stickers" ng-click="open()">Add stickers</button>
-</div>
+<div ng-controller="ModalCtrl">
+    <div class="text-center">
+        <button type="button" class="btn btn-primary btn-lg" id="btn_add_stickers" ng-click="open()">Add stickers</button>
+    </div>
 
-<div class="text-center">
-    <h1>Send <strong>this link</strong> to your friends! </h1>
-</div>
+    <div class="text-center">
+        <h1>Send <strong>this link</strong> to your friends! </h1>
+    </div>
 
-<stickers text="'My duplicated stickers'" data="duplicated_stickers"></stickers>
-<stickers text="'My needed stickers'" data="needed_stickers"></stickers>
-<stats data="stats"></stats>
+    <stickers id="duplicated" text="'My duplicated stickers'" data="duplicated_stickers"></stickers>
+    <stickers id="needed" text="'My needed stickers'" data="needed_stickers"></stickers>
+    <stats data="stats"></stats>
+</div>

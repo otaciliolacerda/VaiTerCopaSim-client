@@ -11,6 +11,12 @@ dashboard.config(['$routeProvider', function($routeProvider) {
 
 dashboard.controller('DashboardCtrl', ["$scope", '$http', function($scope, $http) {
 
+    $scope.delete = function(index, data) {
+        var to_delete = data[index];
+        console.log(to_delete);
+        return;
+    };
+
     $scope.refresh = function() {
         $http.get('http://0.0.0.0:8000/api/v1/sticker/1/duplicated/').success(function(data){
             $scope.duplicated_stickers = data;
@@ -27,7 +33,6 @@ dashboard.controller('DashboardCtrl', ["$scope", '$http', function($scope, $http
 
     $scope.refresh();
 
-    $scope.stats = [];
 }]);
 
 dashboard.directive("stickers", function() {
@@ -38,7 +43,7 @@ dashboard.directive("stickers", function() {
             text: "=",
             data: "="
         }
-    };
+   };
 });
 
 dashboard.directive("stats", function() {

@@ -1,24 +1,21 @@
-<div id="div_dupes">
+<div>
     <h1>{{ text }} (<span id="dupes_count">{{ data.length }}</span>):</h1>
 
-    <div ng-repeat="obj in data">
+    <div id="div_dupes_stickers_container" class="stickers_container" ng-repeat="obj in data">
+        <div class="sticker_placeholder">
+            <div class="sticker_image_placeholder" ng-mouseover="show_del=true" ng-mouseleave="show_del=false">
+                <button class="btn btn-sm btn-danger btn_delete_sticker" ng-show="show_del" ng-click="$parent.$parent.delete($index, data)">
+                    <span class="glyphicon glyphicon-trash"></span>
+                </button>
+                <img class="sticker_image" ng-src="{{ 'stickers/'+ obj.sticker.image }}" width="100" height="131">
 
-        <div id="div_dupes_stickers_container" class="stickers_container">
-            <div class="sticker_placeholder">
-                <div class="sticker_image_placeholder">
-                    <button class="btn btn-sm btn-danger btn_delete_sticker" data-number="{{ obj.sticker.number }}">
-                        <span class="glyphicon glyphicon-trash"></span>
-                    </button>
-                    <img class="sticker_image" ng-src="{{ 'stickers/'+ obj.sticker.image }}" width="100" height="131">
+                <span class="badge sticker_dupe_count">{{ obj.sticker.quantity }}</span>
 
-                    <span class="badge sticker_dupe_count">{{ obj.sticker.quantity }}</span>
-
-                </div>
-                <div style="text-align: center;">
-                    <label class="sticker_number">{{ obj.sticker.number }}</label>
-                </div>
+            </div>
+            <div style="text-align: center;">
+                <label class="sticker_number">{{ obj.sticker.number }}</label>
             </div>
         </div>
-
     </div>
+
 </div>
