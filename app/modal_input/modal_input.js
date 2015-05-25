@@ -1,10 +1,10 @@
 var modal = angular.module('myApp.modalInput', ['ui.bootstrap']);
 
-modal.controller('ModalCtrl', ['$scope', '$modal', '$log', function ($scope, $modal, $log) {
+modal.controller('ModalCtrl', ['$scope', '$modal', function ($scope, $modal) {
 
     $scope.open = function() {
 
-        var modalInstance = $modal.open({
+        $scope.modalInstance = $modal.open({
             animation: true,
             templateUrl: 'modal_input/modal_input.html',
             controller: 'ModalInstanceCtrl',
@@ -20,7 +20,7 @@ modal.controller('ModalCtrl', ['$scope', '$modal', '$log', function ($scope, $mo
 modal.controller('ModalInstanceCtrl', ['$scope', '$modalInstance', '$http',
     function ($scope, $modalInstance, $http) {
 
-    var parse_input = function() {
+    $scope.parse_input = function() {
         var input_val = $scope.input;
         var tokens = input_val.split(/[\s,\-]+|\(\d+\)/);
         return tokens.join(',');
@@ -28,8 +28,8 @@ modal.controller('ModalInstanceCtrl', ['$scope', '$modalInstance', '$http',
 
     $scope.add_duplicated_sticker = function () {
         if ($scope.input) {
-            var param = parse_input();
-            $http.post('http://0.0.0.0:8000/api/v1/sticker/1/duplicated/?stickers=' + param).success(function () {
+            var param = $scope.parse_input();
+            $http.post('http://0.0.0.0:8000/api/v1/sticker/1/duplicated/?stickers=' + param, {}).success(function () {
                 $scope.close();
                 $scope.refresh();
             });
@@ -41,8 +41,8 @@ modal.controller('ModalInstanceCtrl', ['$scope', '$modalInstance', '$http',
 
     $scope.add_needed_sticker = function () {
         if ($scope.input) {
-            var param = parse_input();
-            $http.post('http://0.0.0.0:8000/api/v1/sticker/1/needed/?stickers=' + param).success(function() {
+            var param = $scope.parse_input();
+            $http.post('http://0.0.0.0:8000/api/v1/sticker/1/needed/?stickers=' + param, {}).success(function() {
                 $scope.close();
                 $scope.refresh();
             });
