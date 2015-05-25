@@ -8,7 +8,8 @@ modal.controller('ModalCtrl', ['$scope', '$modal', '$log', function ($scope, $mo
             animation: true,
             templateUrl: 'modal_input/modal_input.html',
             controller: 'ModalInstanceCtrl',
-            size: 'lg'
+            size: 'lg',
+            scope: $scope
         });
     };
 
@@ -30,6 +31,7 @@ modal.controller('ModalInstanceCtrl', ['$scope', '$modalInstance', '$http',
             var param = parse_input();
             $http.post('http://0.0.0.0:8000/api/v1/sticker/1/duplicated/?stickers=' + param).success(function () {
                 $scope.close();
+                $scope.refresh();
             });
         } else {
             //TODO validate the textbox
@@ -42,6 +44,7 @@ modal.controller('ModalInstanceCtrl', ['$scope', '$modalInstance', '$http',
             var param = parse_input();
             $http.post('http://0.0.0.0:8000/api/v1/sticker/1/needed/?stickers=' + param).success(function() {
                 $scope.close();
+                $scope.refresh();
             });
         } else {
             //TODO validate the textbox
