@@ -99,5 +99,25 @@ describe('myApp.dashboard module', function() {
           expect(scope.errorStatistics).toBeTruthy();
       }));
 
+      it('should be able to delete duplicated stickers', inject(function() {
+          spyOn(scope, 'refreshDuplicated');
+          httpBackend.expectDELETE('http://0.0.0.0:8000/api/v1/sticker/1/duplicated/?sticker=2').respond(200, '');
+          scope.deleteDuplicated(1, duplicated);
+          expect(scope.loadingDuplicated).toBeTruthy();
+          expect(scope.errorDuplicated).toBeFalsy();
+          httpBackend.flush();
+          expect(scope.refreshDuplicated).toHaveBeenCalled();
+      }));
+
+      it('should be able to delete needed stickers', inject(function() {
+          spyOn(scope, 'refreshNeeded');
+          httpBackend.expectDELETE('http://0.0.0.0:8000/api/v1/sticker/1/needed/?sticker=2').respond(200, '');
+          scope.deleteNeeded(1, needed);
+          expect(scope.loadingNeeded).toBeTruthy();
+          expect(scope.errorNeeded).toBeFalsy();
+          httpBackend.flush();
+          expect(scope.refreshNeeded).toHaveBeenCalled();
+      }));
+
   });
 });

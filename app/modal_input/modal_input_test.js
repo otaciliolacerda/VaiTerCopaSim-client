@@ -69,7 +69,7 @@ describe('myApp.modalInput module', function() {
 
         var test_add_stickers = function(input, url, method) {
             scope.input = input;
-            $httpBackend.expectPOST(url, {}).respond(201, '');
+            $httpBackend.expectPUT(url, {}).respond(201, '');
             method();
             $httpBackend.flush();
             expect(scope.close).toHaveBeenCalled();
@@ -94,7 +94,7 @@ describe('myApp.modalInput module', function() {
         it('should show the error alert if something goes wrong in server request', function() {
             scope.input = 'rice';
             url = 'http://0.0.0.0:8000/api/v1/sticker/1/duplicated/?stickers=rice';
-            $httpBackend.expectPOST(url, {}).respond(500, '');
+            $httpBackend.expectPUT(url, {}).respond(500, '');
             scope.add_duplicated_sticker();
             $httpBackend.flush();
             expect(scope.showAlert).toBeTruthy();
@@ -103,7 +103,7 @@ describe('myApp.modalInput module', function() {
         it('should be able to close error alert', function() {
             scope.input = 'rice';
             url = 'http://0.0.0.0:8000/api/v1/sticker/1/duplicated/?stickers=rice';
-            $httpBackend.expectPOST(url, {}).respond(500, '');
+            $httpBackend.expectPUT(url, {}).respond(500, '');
             scope.add_duplicated_sticker();
             $httpBackend.flush();
             expect(scope.showAlert).toBeTruthy();

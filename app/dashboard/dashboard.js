@@ -19,11 +19,34 @@ dashboard.controller('DashboardCtrl', ["$scope", '$http', function($scope, $http
     $scope.errorNeeded = false;
     $scope.errorStatistics = false;
 
-    $scope.delete = function(index, data) {
-        var to_delete = data[index];
-        console.log(to_delete);
-        return;
+    $scope.deleteDuplicated = function(index, data) {
+        var obj = data[index];
+
+        $scope.loadingDuplicated = true;
+        $scope.errorDuplicated = false;
+
+        $http.delete('http://0.0.0.0:8000/api/v1/sticker/1/duplicated/?sticker=' + obj.sticker.number).success(function(data){
+            $scope.refreshDuplicated();
+        }).error(function() {
+            $scope.loadingDuplicated = false;
+            $scope.errorDuplicated = true;
+        });
     };
+
+    $scope.deleteNeeded = function(index, data) {
+        var obj = data[index];
+
+        $scope.loadingNeeded = true;
+        $scope.errorNeeded = false;
+
+        $http.delete('http://0.0.0.0:8000/api/v1/sticker/1/needed/?sticker=' + obj.sticker.number).success(function(data){
+            $scope.refreshNeeded();
+        }).error(function() {
+            $scope.loadingNeeded = false;
+            $scope.errorNeeded = true;
+        });
+    };
+
     $scope.refreshDuplicated = function() {
 
         $scope.loadingDuplicated = true;
@@ -86,7 +109,8 @@ dashboard.directive("stickers", function() {
             data: "=",
             loading: "=",
             error: "=",
-            refreshFn: "&"
+            refreshFn: "&",
+            deleteFn: "&"
         }
    };
 });
