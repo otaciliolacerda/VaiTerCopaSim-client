@@ -1,7 +1,12 @@
 <div id="div_stats">
     <h1>Stats</h1>
 
-    <div id="div_stats_container">
+    <div class="sticker_refresh_spinner" ng-show="loading">
+        <div class="spinner"></div>
+        Updating...
+    </div>
+
+    <div id="div_stats_container" ng-hide="loading">
         <p>If you did not forget anything you have <strong><span id="total_stickers_collected">{{ data.collected }}</span></strong> stickers!</p>
 
         <h5>Missing stickers</h5>

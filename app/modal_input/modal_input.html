@@ -9,6 +9,7 @@
     <div>
         <textarea rows="6" ng-model="input" class="form-control input-lg" id="textarea_sticker_numbers" style="resize:none;" placeholder="Ex.: 1, 2, 3, 31, 4, L1"></textarea>
     </div>
+    <alert type="danger" ng-show="showAlert" close="closeAlert()">{{ textAlert }}</alert>
 
 </div>
 

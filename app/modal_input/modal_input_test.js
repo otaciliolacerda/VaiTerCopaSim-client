@@ -37,12 +37,14 @@ describe('myApp.modalInput module', function() {
         beforeEach(inject(function($controller, _$httpBackend_) {
             // Set up the mock http service responses
             $httpBackend = _$httpBackend_;
-            scope.refresh = function(){};
+            scope.refreshDuplicated = function(){};
+            scope.refreshNeeded = function(){};
             scope.open();
             modalInstance = scope.modalInstance;
             modalInstanceCtrl = $controller('ModalInstanceCtrl', { $scope: scope, $modalInstance: modalInstance });
             spyOn(scope, 'close');
-            spyOn(scope, 'refresh');
+            spyOn(scope, 'refreshDuplicated');
+            spyOn(scope, 'refreshNeeded');
         }));
 
         afterEach(function() {
@@ -71,7 +73,6 @@ describe('myApp.modalInput module', function() {
             method();
             $httpBackend.flush();
             expect(scope.close).toHaveBeenCalled();
-            expect(scope.refresh).toHaveBeenCalled();
         };
 
         it('should add and update needed stickers', function() {
@@ -79,6 +80,7 @@ describe('myApp.modalInput module', function() {
             url = 'http://0.0.0.0:8000/api/v1/sticker/1/duplicated/?stickers=1,2,3,4,5,6';
             method = scope.add_duplicated_sticker;
             test_add_stickers(input, url, method);
+            expect(scope.refreshDuplicated).toHaveBeenCalled();
         });
 
         it('should add and update duplicated stickers', function() {
@@ -86,6 +88,27 @@ describe('myApp.modalInput module', function() {
             url = 'http://0.0.0.0:8000/api/v1/sticker/1/needed/?stickers=1,2,3,4,5,6';
             method = scope.add_needed_sticker;
             test_add_stickers(input, url, method);
+            expect(scope.refreshNeeded).toHaveBeenCalled();
+        });
+
+        it('should show the error alert if something goes wrong in server request', function() {
+            scope.input = 'rice';
+            url = 'http://0.0.0.0:8000/api/v1/sticker/1/duplicated/?stickers=rice';
+            $httpBackend.expectPOST(url, {}).respond(500, '');
+            scope.add_duplicated_sticker();
+            $httpBackend.flush();
+            expect(scope.showAlert).toBeTruthy();
+        });
+
+        it('should be able to close error alert', function() {
+            scope.input = 'rice';
+            url = 'http://0.0.0.0:8000/api/v1/sticker/1/duplicated/?stickers=rice';
+            $httpBackend.expectPOST(url, {}).respond(500, '');
+            scope.add_duplicated_sticker();
+            $httpBackend.flush();
+            expect(scope.showAlert).toBeTruthy();
+            scope.closeAlert();
+            expect(scope.showAlert).toBeFalsy();
         });
 
     });

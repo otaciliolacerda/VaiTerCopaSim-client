@@ -9,6 +9,7 @@ module.exports = function(config){
       'app/bower_components/angular-mocks/angular-mocks.js',
       'app/bower_components/angular-bootstrap/ui-bootstrap.js',
       //'app/components/**/*.js',
+      'app/dashboard/*.js',
       'app/modal_input/*.js'
     ],
 

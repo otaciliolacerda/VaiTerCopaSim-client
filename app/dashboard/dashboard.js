@@ -11,27 +11,61 @@ dashboard.config(['$routeProvider', function($routeProvider) {
 
 dashboard.controller('DashboardCtrl', ["$scope", '$http', function($scope, $http) {
 
+    $scope.loadingDuplicated = true;
+    $scope.loadingNeeded = true;
+    $scope.loadingStatistics = true;
+
+    $scope.errorDuplicated = false;
+    $scope.errorNeeded = false;
+    $scope.errorStatistics = false;
+
     $scope.delete = function(index, data) {
         var to_delete = data[index];
         console.log(to_delete);
         return;
     };
 
-    $scope.refresh = function() {
+    $scope.refreshDuplicated = function() {
+        $scope.loadingDuplicated = true;
         $http.get('http://0.0.0.0:8000/api/v1/sticker/1/duplicated/').success(function(data){
             $scope.duplicated_stickers = data;
-        });
-
-        $http.get('http://0.0.0.0:8000/api/v1/sticker/1/needed/').success(function(data){
-            $scope.needed_stickers = data;
-        });
-
-        $http.get('http://0.0.0.0:8000/api/v1/sticker/1/statistics/').success(function(data){
-            $scope.stats = data;
+            $scope.loadingDuplicated = false;
+        }).error(function() {
+            $scope.loadingDuplicated = false;
+            $scope.errorDuplicated = true;
         });
     };
 
-    $scope.refresh();
+    $scope.refreshNeeded = function() {
+        $scope.loadingNeeded = true;
+        $http.get('http://0.0.0.0:8000/api/v1/sticker/1/needed/').success(function(data){
+            $scope.needed_stickers = data;
+            $scope.loadingNeeded = false;
+        }).error(function() {
+            $scope.loadingNeeded = false;
+            $scope.errorNeeded = true;
+        });
+    };
+
+    $scope.refreshStatistics = function() {
+        $scope.loadingStatistics = true;
+        $http.get('http://0.0.0.0:8000/api/v1/sticker/1/statistics/').success(function(data){
+            $scope.statistics = data;
+            $scope.loadingStatistics = false;
+        }).error(function() {
+            $scope.loadingStatistics = false;
+            $scope.errorStatistics = true;
+        });
+    };
+
+    var refreshData = function() {
+        $scope.refreshDuplicated();
+        $scope.refreshNeeded();
+        $scope.refreshStatistics();
+    };
+
+    //on loading refresh all - need to consider this in unit testing.
+    refreshData();
 
 }]);
 
@@ -41,7 +75,10 @@ dashboard.directive("stickers", function() {
         templateUrl: "dashboard/partials/stickers.html",
         scope: {
             text: "=",
-            data: "="
+            data: "=",
+            loading: "=",
+            error: "=",
+            refreshFn: "="
         }
    };
 });
@@ -51,7 +88,10 @@ dashboard.directive("stats", function() {
         restrict: 'E',
         templateUrl: "dashboard/partials/stats.html",
         scope: {
-            data: "="
+            data: "=",
+            loading: "=",
+            error: "=",
+            refreshFn: "="
         }
     };
 });

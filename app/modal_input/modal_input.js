@@ -20,6 +20,13 @@ modal.controller('ModalCtrl', ['$scope', '$modal', function ($scope, $modal) {
 modal.controller('ModalInstanceCtrl', ['$scope', '$modalInstance', '$http',
     function ($scope, $modalInstance, $http) {
 
+    var showAlert = function(message) {
+        $scope.showAlert = true;
+        $scope.textAlert = 'Invalid input. Ex.: 1, 2, 3, 31, 4, L1. Make sure you enter an valid sticker.';
+    };
+
+    $scope.showAlert = false;
+
     $scope.parse_input = function() {
         var input_val = $scope.input;
         var tokens = input_val.split(/[\s,\-]+|\(\d+\)/);
@@ -31,11 +38,13 @@ modal.controller('ModalInstanceCtrl', ['$scope', '$modalInstance', '$http',
             var param = $scope.parse_input();
             $http.post('http://0.0.0.0:8000/api/v1/sticker/1/duplicated/?stickers=' + param, {}).success(function () {
                 $scope.close();
-                $scope.refresh();
+                $scope.refreshDuplicated();
+            }).error(function(data, status) {
+                showAlert();
+                console.log('Error in ModalInstanceCtrl.add_duplicated_sticker. Status: ', status);
             });
         } else {
-            //TODO validate the textbox
-            console.log("Invalid input!")
+            showAlert();
         };
     };
 
@@ -44,16 +53,24 @@ modal.controller('ModalInstanceCtrl', ['$scope', '$modalInstance', '$http',
             var param = $scope.parse_input();
             $http.post('http://0.0.0.0:8000/api/v1/sticker/1/needed/?stickers=' + param, {}).success(function() {
                 $scope.close();
-                $scope.refresh();
+                $scope.refreshNeeded();
+            }).error(function(data, status) {
+                showAlert();
+                console.log('Error in ModalInstanceCtrl.add_needed_sticker. Status: ', status, ' Body: ', data);
             });
         } else {
-            //TODO validate the textbox
-            console.log("Invalid input!")
+            showAlert();
         };
     };
 
     $scope.close = function() {
         $modalInstance.dismiss('cancel');
         $scope.input = '';
+        $scope.closeAlert();
     };
+
+    $scope.closeAlert = function() {
+        $scope.showAlert = false;
+    };
+
 }]);

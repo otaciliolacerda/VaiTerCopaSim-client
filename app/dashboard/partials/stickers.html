@@ -1,7 +1,19 @@
 <div>
     <h1>{{ text }} (<span id="dupes_count">{{ data.length }}</span>):</h1>
 
-    <div id="div_dupes_stickers_container" class="stickers_container" ng-repeat="obj in data">
+    <div class="sticker_refresh_spinner" ng-show="loading">
+        <div class="spinner"></div>
+        Updating...
+    </div>
+
+    <div class="sticker_refresh_spinner" ng-show="error" ng-show="error">
+        <alert type="danger">Something went wrong in the server!</alert>
+        <button type="button" class="btn btn-primary" ng-click="refreshFn()">
+            Click to Refresh!
+        </button>
+    </div>
+
+    <div id="div_dupes_stickers_container" class="stickers_container" ng-repeat="obj in data" ng-hide="loading || error">
         <div class="sticker_placeholder">
             <div class="sticker_image_placeholder" ng-mouseover="show_del=true" ng-mouseleave="show_del=false">
                 <button class="btn btn-sm btn-danger btn_delete_sticker" ng-show="show_del" ng-click="$parent.$parent.delete($index, data)">
