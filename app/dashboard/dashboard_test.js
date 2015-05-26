@@ -6,15 +6,15 @@ describe('myApp.dashboard module', function() {
 
   describe('testing dashboard controller', function(){
 
-      var scope, dashboardCtrl, httpBackend, request;
+      var scope, dashboardCtrl, httpBackend, requestDuplicated, requestNeeded, requestStats;
 
       beforeEach(inject(function($controller, $rootScope, $httpBackend) {
           httpBackend = $httpBackend;
           scope = $rootScope.$new();
 
-          request = httpBackend.whenGET('http://0.0.0.0:8000/api/v1/sticker/1/duplicated/').respond(200, duplicated);
-          httpBackend.whenGET('http://0.0.0.0:8000/api/v1/sticker/1/needed/').respond(200, needed);
-          httpBackend.whenGET('http://0.0.0.0:8000/api/v1/sticker/1/statistics/').respond(200, statistics);
+          requestDuplicated = httpBackend.whenGET('http://0.0.0.0:8000/api/v1/sticker/1/duplicated/').respond(200, duplicated);
+          requestNeeded = httpBackend.whenGET('http://0.0.0.0:8000/api/v1/sticker/1/needed/').respond(200, needed);
+          requestStats = httpBackend.whenGET('http://0.0.0.0:8000/api/v1/sticker/1/statistics/').respond(200, statistics);
 
           dashboardCtrl = $controller('DashboardCtrl', { $scope: scope });
 
@@ -69,15 +69,34 @@ describe('myApp.dashboard module', function() {
           expect(scope.statistics).toEqual(statistics);
       }));
 
-      it('should show the error panel if any error occurs', inject(function() {
-          scope.duplicated_stickers = undefined;
-          request.respond(500, '');
+      it('should show the error panel if any error occurs in duplicated stickers', inject(function() {
+          requestDuplicated.respond(500, '');
           scope.refreshDuplicated();
           expect(scope.loadingDuplicated).toBeTruthy();
           expect(scope.errorDuplicated).toBeFalsy();
           httpBackend.flush();
           expect(scope.loadingDuplicated).toBeFalsy();
           expect(scope.errorDuplicated).toBeTruthy();
+      }));
+
+      it('should show the error panel if any error occurs in needed stickers', inject(function() {
+          requestNeeded.respond(500, '');
+          scope.refreshNeeded();
+          expect(scope.loadingNeeded).toBeTruthy();
+          expect(scope.errorNeeded).toBeFalsy();
+          httpBackend.flush();
+          expect(scope.loadingNeeded).toBeFalsy();
+          expect(scope.errorNeeded).toBeTruthy();
+      }));
+
+      it('should show the error panel if any error occurs in statistics', inject(function() {
+          requestStats.respond(500, '');
+          scope.refreshStatistics();
+          expect(scope.loadingStatistics).toBeTruthy();
+          expect(scope.errorStatistics).toBeFalsy();
+          httpBackend.flush();
+          expect(scope.loadingStatistics).toBeFalsy();
+          expect(scope.errorStatistics).toBeTruthy();
       }));
 
   });

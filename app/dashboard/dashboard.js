@@ -24,9 +24,11 @@ dashboard.controller('DashboardCtrl', ["$scope", '$http', function($scope, $http
         console.log(to_delete);
         return;
     };
-
     $scope.refreshDuplicated = function() {
+
         $scope.loadingDuplicated = true;
+        $scope.errorDuplicated = false;
+
         $http.get('http://0.0.0.0:8000/api/v1/sticker/1/duplicated/').success(function(data){
             $scope.duplicated_stickers = data;
             $scope.loadingDuplicated = false;
@@ -37,7 +39,10 @@ dashboard.controller('DashboardCtrl', ["$scope", '$http', function($scope, $http
     };
 
     $scope.refreshNeeded = function() {
+
         $scope.loadingNeeded = true;
+        $scope.errorNeeded = false;
+
         $http.get('http://0.0.0.0:8000/api/v1/sticker/1/needed/').success(function(data){
             $scope.needed_stickers = data;
             $scope.loadingNeeded = false;
@@ -48,7 +53,10 @@ dashboard.controller('DashboardCtrl', ["$scope", '$http', function($scope, $http
     };
 
     $scope.refreshStatistics = function() {
+
         $scope.loadingStatistics = true;
+        $scope.errorStatistics = false;
+
         $http.get('http://0.0.0.0:8000/api/v1/sticker/1/statistics/').success(function(data){
             $scope.statistics = data;
             $scope.loadingStatistics = false;
@@ -78,7 +86,7 @@ dashboard.directive("stickers", function() {
             data: "=",
             loading: "=",
             error: "=",
-            refreshFn: "="
+            refreshFn: "&"
         }
    };
 });
@@ -91,7 +99,7 @@ dashboard.directive("stats", function() {
             data: "=",
             loading: "=",
             error: "=",
-            refreshFn: "="
+            refreshFn: "&"
         }
     };
 });

@@ -6,7 +6,14 @@
         Updating...
     </div>
 
-    <div id="div_stats_container" ng-hide="loading">
+    <div class="sticker_refresh_spinner" ng-show="error">
+        <alert type="danger">Something went wrong in the server!</alert>
+        <button type="button" class="btn btn-primary" ng-click="refreshFn()">
+            Click to Refresh!
+        </button>
+    </div>
+
+    <div id="div_stats_container" ng-hide="loading || error">
         <p>If you did not forget anything you have <strong><span id="total_stickers_collected">{{ data.collected }}</span></strong> stickers!</p>
 
         <h5>Missing stickers</h5>
