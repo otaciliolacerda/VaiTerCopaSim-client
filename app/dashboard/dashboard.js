@@ -2,13 +2,6 @@
 
 var dashboard = angular.module('myApp.dashboard', ['ngRoute', 'myApp.modalInput']);
 
-dashboard.config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/dashboard', {
-    templateUrl: 'dashboard/dashboard.html',
-    controller: 'DashboardCtrl'
-  });
-}]);
-
 dashboard.controller('DashboardCtrl', ["$scope", '$http', function($scope, $http) {
 
     $scope.loadingDuplicated = true;
