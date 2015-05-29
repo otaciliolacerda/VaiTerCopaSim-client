@@ -12,11 +12,9 @@
   <link rel="stylesheet" href="bower_components/html5-boilerplate/css/normalize.css">
   <link rel="stylesheet" href="bower_components/html5-boilerplate/css/main.css">
   <link rel="stylesheet" href="bower_components/html5-boilerplate/css/main.css">
-  <link rel="stylesheet" href="bower_components/angular-bootstrap/ui-bootstrap-csp.css">
-  <link rel="stylesheet" href="bower_components/bootstrap-social/bootstrap-social.css">
-  <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
   <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="bower_components/angular-bootstrap/ui-bootstrap-csp.css">
 
   <link rel="stylesheet" href="app.css">
 
@@ -53,7 +51,7 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <p class="navbar-text navbar-right" ng-show="isLoggedIn">
+                        <p class="navbar-text navbar-right" ng-show="true">
                             Welcome, {{ user.name }}</strong>!
                             <a ng-click="logout()">Log Out</a>
                         </p>
@@ -79,6 +77,7 @@
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="bower_components/ngstorage/ngStorage.js"></script>
     <script src="app.js"></script>
     <script src="modal_input/modal_input.js"></script>
     <script src="dashboard/dashboard.js"></script>

@@ -7,20 +7,50 @@ var myAppModule = angular.module('myApp', [
   'myApp.login'
 ]);
 
-myAppModule.config(['$routeProvider', function($routeProvider, $locationProvider) {
-    $routeProvider.when('/dashboard', {
-        templateUrl: 'dashboard/dashboard.html',
-        controller: 'DashboardCtrl'
-    }).when('/login', {
-        templateUrl: 'login/login.html',
-        controller: 'LoginCtrl'
-    }).otherwise({redirectTo: '/dashboard'});
+myAppModule.constant('Constants', {'backend': 'http://0.0.0.0:8000/api/v1/'} );
+
+myAppModule.factory('authInterceptor', ['$rootScope', '$q', '$localStorage', function ($rootScope, $q, $localStorage) {
+    return {
+        request: function (config) {
+            config.headers = config.headers || {};
+            if ($localStorage.token) {
+                config.headers.Authorization = 'Bearer ' + $localStorage.token.access_token;
+            }
+            return config;
+        },
+        response: function (response) {
+            if (response.status === 401) {
+                // handle the case where the user is not authenticated
+            }
+            return response || $q.when(response);
+        }
+    };
+}]);
+
+myAppModule.config(['$routeProvider', '$httpProvider',
+    function($routeProvider, $httpProvider) {
+
+        $httpProvider.interceptors.push('authInterceptor');
+
+        $routeProvider.when('/dashboard', {
+            templateUrl: 'dashboard/dashboard.html',
+            controller: 'DashboardCtrl'
+        }).when('/login', {
+            templateUrl: 'login/login.html',
+            controller: 'LoginCtrl'
+        }).otherwise({redirectTo: '/dashboard'});
 }]);
 
 
-myAppModule.run(['$rootScope', '$location', function($rootScope, $location) {
+myAppModule.run(['$rootScope', '$location', '$localStorage', function($rootScope, $location, $localStorage) {
+
+    //delete $localStorage.token;
+    $rootScope.token = $localStorage.token;
+    $rootScope.user = $localStorage.user;
+
     $rootScope.$on( "$routeChangeStart", function(event, next, current) {
-        if ($rootScope.isLoggedIn == null || $rootScope.isLoggedIn == undefined) {
+        console.log($localStorage.token ? $localStorage.token.access_token : 'UNDEFINED');
+        if (!$localStorage.token) {
             // no logged user, redirect to /login
             if ( next.templateUrl === "login/login.html") {
             } else {

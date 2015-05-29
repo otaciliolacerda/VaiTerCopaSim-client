@@ -3,18 +3,38 @@
  */
 'use strict';
 
-var loginModule = angular.module('myApp.login', ['ngRoute', 'facebook']);
+var loginModule = angular.module('myApp.login', ['ngRoute', 'facebook', 'ngStorage']);
+
+loginModule.run(['$location', '$rootScope', '$localStorage', function($location, $rootScope, $localStorage) {
+
+    $rootScope.isLoggedIn = function() {
+        return ($localStorage.token ? true : false);
+    };
+
+    //Revokes the token but do not logout of facebook (the user will only be logged out of the app)
+    $rootScope.logout = function() {
+        delete $localStorage.user;
+        delete $localStorage.token;
+        $location.path("/login");
+    }
+
+}]);
 
 loginModule.config(['FacebookProvider', function(FacebookProvider) {
    FacebookProvider.init('768817646470532');
 }]);
 
-loginModule.controller('LoginCtrl', ['$location', '$rootScope', 'Facebook',
-    function($location, $rootScope, Facebook) {
 
-        // Defining user logged status
-        $rootScope.isLoggedIn = false;
-        $rootScope.user = {};
+loginModule.controller('LoginCtrl', ['$location', '$rootScope', 'Facebook', '$http', 'Constants', '$localStorage',
+    function($location, $rootScope, Facebook, $http, Constants, $localStorage) {
+
+        $localStorage.user;
+        $localStorage.token;
+
+
+        $rootScope.isLoggedIn = function() {
+            return ($localStorage.token ? true : false);
+        };
 
         /**
          * Watch for Facebook to be ready.
@@ -29,29 +49,44 @@ loginModule.controller('LoginCtrl', ['$location', '$rootScope', 'Facebook',
             }
         );
 
-        Facebook.getLoginStatus(function(response) {
-            if(response.status === 'connected') {
-                $rootScope.isLoggedIn = true;
-                $rootScope.me();
-                $location.path("/dashboard");
-            } else {
-                $rootScope.isLoggedIn = false;
-                $location.path("/login");
-            }
-        });
+        var myAppLogin = function(token) {
+            $http({
+                method: 'GET',
+                url: Constants.backend + 'auth/login/',
+                params: {access_token: token}
+            }).
+                success(function(data){
+                    $rootScope.me();
+                    console.log('MyApp Token: ', data.access_token);
+                    $localStorage.token = data;
+                    $location.path("/dashboard");
+                });
+        };
 
         $rootScope.login = function() {
-            if(!$rootScope.isLoggedIn) {
-                Facebook.login(function (response) {
-                    if (response.status == 'connected') {
-                        $rootScope.isLoggedIn = true;
-                        $rootScope.me();
-                        console.log($rootScope.user);
-                        console.log($rootScope.user);
-                        $location.path("/dashboard");
+            if(!$rootScope.isLoggedIn()) {
+
+                Facebook.getLoginStatus(function(response) {
+
+                    console.log('Facebook Status Response: ', response);
+                    if(response.status === 'connected') {
+                        myAppLogin(response.authResponse.accessToken);
+                    } else {
+                        Facebook.login(function (response) {
+                            console.log('Facebook Login Response: ', response);
+                            if (response.status == 'connected') {
+                                myAppLogin(response.authResponse.accessToken);
+                            }
+                        });ß
+                        $location.path("/login");
                     }
+
                 });
-            }
+
+            } else {
+                console.log('You are logged in, do not need to call login.');
+                $location.path("/dashboard");
+            };
         };
 
         $rootScope.me = function() {
@@ -60,20 +95,19 @@ loginModule.controller('LoginCtrl', ['$location', '$rootScope', 'Facebook',
                  * Using $scope.$apply since this happens outside angular framework.
                  */
                 $rootScope.$apply(function() {
-                    $rootScope.user = response;
+                    $localStorage.user = response;
+                    console.log('me');
+                    console.log(response);
                 });
 
             });
         };
 
+        //Revokes the token but do not logout of facebook (the user will only be logged out of the app)
         $rootScope.logout = function() {
-            Facebook.logout(function() {
-                $rootScope.$apply(function() {
-                    $rootScope.user = {};
-                    $rootScope.isLoggedIn = false;
-                    $location.path("/login");
-                });
-            });
+            delete $localStorage.user;
+            delete $localStorage.token;
+            $location.path("/login");
         }
 
 }]);

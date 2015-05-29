@@ -17,8 +17,8 @@ modal.controller('ModalCtrl', ['$scope', '$modal', function ($scope, $modal) {
 
 // Please note that $modalInstance represents a modal window (instance) dependency.
 // It is not the same as the $modal service used above.
-modal.controller('ModalInstanceCtrl', ['$scope', '$modalInstance', '$http',
-    function ($scope, $modalInstance, $http) {
+modal.controller('ModalInstanceCtrl', ['$scope', '$modalInstance', '$http', 'Constants',
+    function ($scope, $modalInstance, $http, Constants) {
 
     var showAlert = function(message) {
         $scope.showAlert = true;
@@ -36,7 +36,7 @@ modal.controller('ModalInstanceCtrl', ['$scope', '$modalInstance', '$http',
     $scope.add_duplicated_sticker = function () {
         if ($scope.input) {
             var param = $scope.parse_input();
-            $http.put('http://0.0.0.0:8000/api/v1/sticker/1/duplicated/?stickers=' + param, {}).success(function () {
+            $http.put(Constants.backend + 'sticker/duplicated/?stickers=' + param, {}).success(function () {
                 $scope.close();
                 $scope.refreshDuplicated();
             }).error(function(data, status) {
@@ -51,7 +51,7 @@ modal.controller('ModalInstanceCtrl', ['$scope', '$modalInstance', '$http',
     $scope.add_needed_sticker = function () {
         if ($scope.input) {
             var param = $scope.parse_input();
-            $http.put('http://0.0.0.0:8000/api/v1/sticker/1/needed/?stickers=' + param, {}).success(function() {
+            $http.put(Constants.backend + 'sticker/needed/?stickers=' + param, {}).success(function() {
                 $scope.close();
                 $scope.refreshNeeded();
             }).error(function(data, status) {

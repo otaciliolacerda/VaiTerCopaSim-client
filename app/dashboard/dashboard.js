@@ -2,7 +2,7 @@
 
 var dashboard = angular.module('myApp.dashboard', ['ngRoute', 'myApp.modalInput']);
 
-dashboard.controller('DashboardCtrl', ["$scope", '$http', function($scope, $http) {
+dashboard.controller('DashboardCtrl', ["$scope", '$http', 'Constants', function($scope, $http, Constants) {
 
     $scope.loadingDuplicated = true;
     $scope.loadingNeeded = true;
@@ -18,7 +18,7 @@ dashboard.controller('DashboardCtrl', ["$scope", '$http', function($scope, $http
         $scope.loadingDuplicated = true;
         $scope.errorDuplicated = false;
 
-        $http.delete('http://0.0.0.0:8000/api/v1/sticker/1/duplicated/?sticker=' + obj.sticker.number).success(function(data){
+        $http.delete(Constants.backend + 'sticker/duplicated/?sticker=' + obj.sticker.number).success(function(data){
             $scope.refreshDuplicated();
         }).error(function() {
             $scope.loadingDuplicated = false;
@@ -32,7 +32,7 @@ dashboard.controller('DashboardCtrl', ["$scope", '$http', function($scope, $http
         $scope.loadingNeeded = true;
         $scope.errorNeeded = false;
 
-        $http.delete('http://0.0.0.0:8000/api/v1/sticker/1/needed/?sticker=' + obj.sticker.number).success(function(data){
+        $http.delete(Constants.backend + 'sticker/needed/?sticker=' + obj.sticker.number).success(function(data){
             $scope.refreshNeeded();
         }).error(function() {
             $scope.loadingNeeded = false;
@@ -45,7 +45,7 @@ dashboard.controller('DashboardCtrl', ["$scope", '$http', function($scope, $http
         $scope.loadingDuplicated = true;
         $scope.errorDuplicated = false;
 
-        $http.get('http://0.0.0.0:8000/api/v1/sticker/1/duplicated/').success(function(data){
+        $http.get(Constants.backend + 'sticker/duplicated/').success(function(data){
             $scope.duplicated_stickers = data;
             $scope.loadingDuplicated = false;
         }).error(function() {
@@ -59,7 +59,7 @@ dashboard.controller('DashboardCtrl', ["$scope", '$http', function($scope, $http
         $scope.loadingNeeded = true;
         $scope.errorNeeded = false;
 
-        $http.get('http://0.0.0.0:8000/api/v1/sticker/1/needed/').success(function(data){
+        $http.get(Constants.backend + 'sticker/needed/').success(function(data){
             $scope.needed_stickers = data;
             $scope.loadingNeeded = false;
         }).error(function() {
@@ -73,7 +73,7 @@ dashboard.controller('DashboardCtrl', ["$scope", '$http', function($scope, $http
         $scope.loadingStatistics = true;
         $scope.errorStatistics = false;
 
-        $http.get('http://0.0.0.0:8000/api/v1/sticker/1/statistics/').success(function(data){
+        $http.get(Constants.backend + 'sticker/statistics/').success(function(data){
             $scope.statistics = data;
             $scope.loadingStatistics = false;
         }).error(function() {
