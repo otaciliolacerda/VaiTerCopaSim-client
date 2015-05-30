@@ -9,16 +9,20 @@ var myAppModule = angular.module('myApp', [
 
 myAppModule.constant('Constants', {'backend': 'http://0.0.0.0:8000/api/v1/'} );
 
-myAppModule.factory('authInterceptor', ['$rootScope', '$q', '$localStorage', function ($rootScope, $q, $localStorage) {
+myAppModule.factory('authInterceptor', ['$rootScope', '$q', '$localStorage', 'Constants',
+    function ($rootScope, $q, $localStorage, Constants) {
     return {
         request: function (config) {
-            config.headers = config.headers || {};
-            if ($localStorage.token) {
-                config.headers.Authorization = 'Bearer ' + $localStorage.token.access_token;
+            //It will only intercept call to the API
+            if (config.url.indexOf(Constants.backend) === 0) {
+                config.headers = config.headers || {};
+                if ($localStorage.token) {
+                    config.headers.Authorization = 'Bearer ' + $localStorage.token.access_token;
+                }
             }
             return config;
         },
-        response: function (response) {
+        responseError: function (response) {
             if (response.status === 401 || response.status === 403) {
                 // handle the case where the user is not authenticated
                 $rootScope.logout();
