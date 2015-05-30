@@ -32,7 +32,7 @@ describe('myApp.modalInput module', function() {
 
     describe('testing modal instance controller', function() {
 
-        var modalInstanceCtrl, $httpBackend, input, url, method;
+        var modalInstanceCtrl, $httpBackend, input, url, method, constants;
 
         beforeEach(inject(function($controller, _$httpBackend_) {
             // Set up the mock http service responses
@@ -41,7 +41,9 @@ describe('myApp.modalInput module', function() {
             scope.refreshNeeded = function(){};
             scope.open();
             modalInstance = scope.modalInstance;
-            modalInstanceCtrl = $controller('ModalInstanceCtrl', { $scope: scope, $modalInstance: modalInstance });
+            constants = {'backend': 'http://0.0.0.0:8000/api/v1/'}
+            modalInstanceCtrl = $controller(
+                'ModalInstanceCtrl', { $scope: scope, $modalInstance: modalInstance, Constants: constants });
             spyOn(scope, 'close');
             spyOn(scope, 'refreshDuplicated');
             spyOn(scope, 'refreshNeeded');
@@ -69,23 +71,24 @@ describe('myApp.modalInput module', function() {
 
         var test_add_stickers = function(input, url, method) {
             scope.input = input;
-            $httpBackend.expectPUT(url, {}).respond(201, '');
+            var data = {stickers: scope.parse_input()}
+            $httpBackend.expectPUT(constants.backend + url, data).respond(201, '');
             method();
             $httpBackend.flush();
             expect(scope.close).toHaveBeenCalled();
         };
 
-        it('should add and update needed stickers', function() {
+        it('should add and update duplicated stickers', function() {
             input = '1-2-3-4-5-6';
-            url = 'http://0.0.0.0:8000/api/v1/sticker/1/duplicated/?stickers=1,2,3,4,5,6';
+            url = 'sticker/duplicated/';
             method = scope.add_duplicated_sticker;
             test_add_stickers(input, url, method);
             expect(scope.refreshDuplicated).toHaveBeenCalled();
         });
 
-        it('should add and update duplicated stickers', function() {
+        it('should add and update needed stickers', function() {
             input = '1-2-3-4-5-6';
-            url = 'http://0.0.0.0:8000/api/v1/sticker/1/needed/?stickers=1,2,3,4,5,6';
+            url = 'sticker/needed/';
             method = scope.add_needed_sticker;
             test_add_stickers(input, url, method);
             expect(scope.refreshNeeded).toHaveBeenCalled();
@@ -93,8 +96,9 @@ describe('myApp.modalInput module', function() {
 
         it('should show the error alert if something goes wrong in server request', function() {
             scope.input = 'rice';
-            url = 'http://0.0.0.0:8000/api/v1/sticker/1/duplicated/?stickers=rice';
-            $httpBackend.expectPUT(url, {}).respond(500, '');
+            var data = {stickers: scope.parse_input()}
+            url = constants.backend + 'sticker/duplicated/';
+            $httpBackend.expectPUT(url, data).respond(500, '');
             scope.add_duplicated_sticker();
             $httpBackend.flush();
             expect(scope.showAlert).toBeTruthy();
@@ -102,8 +106,9 @@ describe('myApp.modalInput module', function() {
 
         it('should be able to close error alert', function() {
             scope.input = 'rice';
-            url = 'http://0.0.0.0:8000/api/v1/sticker/1/duplicated/?stickers=rice';
-            $httpBackend.expectPUT(url, {}).respond(500, '');
+            var data = {stickers: scope.parse_input()}
+            url = constants.backend + 'sticker/duplicated/';
+            $httpBackend.expectPUT(url, data).respond(500, '');
             scope.add_duplicated_sticker();
             $httpBackend.flush();
             expect(scope.showAlert).toBeTruthy();

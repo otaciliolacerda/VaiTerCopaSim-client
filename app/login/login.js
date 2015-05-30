@@ -28,14 +28,6 @@ loginModule.config(['FacebookProvider', function(FacebookProvider) {
 loginModule.controller('LoginCtrl', ['$location', '$rootScope', 'Facebook', '$http', 'Constants', '$localStorage',
     function($location, $rootScope, Facebook, $http, Constants, $localStorage) {
 
-        $localStorage.user;
-        $localStorage.token;
-
-
-        $rootScope.isLoggedIn = function() {
-            return ($localStorage.token ? true : false);
-        };
-
         /**
          * Watch for Facebook to be ready.
          */
@@ -102,13 +94,6 @@ loginModule.controller('LoginCtrl', ['$location', '$rootScope', 'Facebook', '$ht
 
             });
         };
-
-        //Revokes the token but do not logout of facebook (the user will only be logged out of the app)
-        $rootScope.logout = function() {
-            delete $localStorage.user;
-            delete $localStorage.token;
-            $location.path("/login");
-        }
 
 }]);
 

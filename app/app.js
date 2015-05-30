@@ -19,8 +19,9 @@ myAppModule.factory('authInterceptor', ['$rootScope', '$q', '$localStorage', fun
             return config;
         },
         response: function (response) {
-            if (response.status === 401) {
+            if (response.status === 401 || response.status === 403) {
                 // handle the case where the user is not authenticated
+                $rootScope.logout();
             }
             return response || $q.when(response);
         }
@@ -44,13 +45,9 @@ myAppModule.config(['$routeProvider', '$httpProvider',
 
 myAppModule.run(['$rootScope', '$location', '$localStorage', function($rootScope, $location, $localStorage) {
 
-    //delete $localStorage.token;
-    $rootScope.token = $localStorage.token;
-    $rootScope.user = $localStorage.user;
-
     $rootScope.$on( "$routeChangeStart", function(event, next, current) {
         console.log($localStorage.token ? $localStorage.token.access_token : 'UNDEFINED');
-        if (!$localStorage.token) {
+        if (!$rootScope.isLoggedIn()) {
             // no logged user, redirect to /login
             if ( next.templateUrl === "login/login.html") {
             } else {

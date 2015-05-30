@@ -36,7 +36,11 @@ modal.controller('ModalInstanceCtrl', ['$scope', '$modalInstance', '$http', 'Con
     $scope.add_duplicated_sticker = function () {
         if ($scope.input) {
             var param = $scope.parse_input();
-            $http.put(Constants.backend + 'sticker/duplicated/?stickers=' + param, {}).success(function () {
+            $http({
+                method: 'PUT',
+                url: Constants.backend + 'sticker/duplicated/',
+                data: {stickers: param}
+            }).success(function () {
                 $scope.close();
                 $scope.refreshDuplicated();
             }).error(function(data, status) {
@@ -51,7 +55,11 @@ modal.controller('ModalInstanceCtrl', ['$scope', '$modalInstance', '$http', 'Con
     $scope.add_needed_sticker = function () {
         if ($scope.input) {
             var param = $scope.parse_input();
-            $http.put(Constants.backend + 'sticker/needed/?stickers=' + param, {}).success(function() {
+            $http({
+                method: 'PUT',
+                url: Constants.backend + 'sticker/needed/',
+                data: {stickers: param}
+            }).success(function() {
                 $scope.close();
                 $scope.refreshNeeded();
             }).error(function(data, status) {

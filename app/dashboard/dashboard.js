@@ -18,7 +18,11 @@ dashboard.controller('DashboardCtrl', ["$scope", '$http', 'Constants', function(
         $scope.loadingDuplicated = true;
         $scope.errorDuplicated = false;
 
-        $http.delete(Constants.backend + 'sticker/duplicated/?sticker=' + obj.sticker.number).success(function(data){
+        $http({
+            method: 'DELETE',
+            url: Constants.backend + 'sticker/duplicated/',
+            params: {sticker: obj.sticker.number}
+        }).success(function(data){
             $scope.refreshDuplicated();
         }).error(function() {
             $scope.loadingDuplicated = false;
@@ -32,7 +36,11 @@ dashboard.controller('DashboardCtrl', ["$scope", '$http', 'Constants', function(
         $scope.loadingNeeded = true;
         $scope.errorNeeded = false;
 
-        $http.delete(Constants.backend + 'sticker/needed/?sticker=' + obj.sticker.number).success(function(data){
+        $http({
+            method: 'DELETE',
+            url: Constants.backend + 'sticker/needed/',
+            params: {sticker: obj.sticker.number}
+        }).success(function(data){
             $scope.refreshNeeded();
         }).error(function() {
             $scope.loadingNeeded = false;

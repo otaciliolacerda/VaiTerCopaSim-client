@@ -7,34 +7,41 @@ describe('myApp.dashboard module', function() {
   describe('testing dashboard controller', function(){
 
       var scope, dashboardCtrl, httpBackend, requestDuplicated, requestNeeded, requestStats;
+      var constants, duplicated, needed, statistics;
+
+      var set_data = function() {
+          duplicated = [{"sticker": {"image": "1.jpg", "team": "Especiais", "number": "1", "name": "", "order": 1}, "user": 1, "quantity": 3}, {"sticker": {"image": "2.jpg", "team": "Especiais", "number": "2", "name": "", "order": 2}, "user": 1, "quantity": 1}];
+
+          needed = [{"sticker": {"image": "1.jpg", "team": "Especiais", "number": "1", "name": "", "order": 1}, "user": 1}, {"sticker": {"image": "2.jpg", "team": "Especiais", "number": "2", "name": "", "order": 2}, "user": 1}];
+
+          statistics = {"collected": 645, "teams": {"Camar\u00f5es": 0, "Holanda": 0, "It\u00e1lia": 0, "Costa Rica": 0, "Ir\u00e3": 0, "Costa do Marfim": 0, "Argentina": 0, "Espanha": 0, "Fran\u00e7a": 0, "Est\u00e1dios": 0, "Col\u00f4mbia": 0, "Chile": 0, "Especiais": 4, "Equador": 0, "B\u00e9lgica": 0, "Jap\u00e3o": 0, "Brasil": 0, "Sui\u00e7a": 0, "Inglaterra": 0, "Cro\u00e1cia": 0, "Estados Unidos": 0, "Alg\u00e9ria": 0, "Propaganda": 0, "Honduras": 0, "Portugal": 0, "Nig\u00e9ria": 0, "Gr\u00e9cia": 0, "Cor\u00e9ia": 0, "R\u00fassia": 0, "Gana": 0, "Alemanha": 0, "Uruguai": 0, "Austr\u00e1lia": 0, "B\u00f3snia Herzegovina": 0, "M\u00e9xico": 0}, "missing": 4};
+      };
 
       beforeEach(inject(function($controller, $rootScope, $httpBackend) {
           httpBackend = $httpBackend;
           scope = $rootScope.$new();
 
-          requestDuplicated = httpBackend.whenGET('http://0.0.0.0:8000/api/v1/sticker/1/duplicated/').respond(200, duplicated);
-          requestNeeded = httpBackend.whenGET('http://0.0.0.0:8000/api/v1/sticker/1/needed/').respond(200, needed);
-          requestStats = httpBackend.whenGET('http://0.0.0.0:8000/api/v1/sticker/1/statistics/').respond(200, statistics);
+          constants = {'backend': 'http://0.0.0.0:8000/api/v1/'}
 
-          dashboardCtrl = $controller('DashboardCtrl', { $scope: scope });
+          requestDuplicated = httpBackend.whenGET(constants.backend + 'sticker/duplicated/').respond(200, duplicated);
+          requestNeeded = httpBackend.whenGET(constants.backend + 'sticker/needed/').respond(200, needed);
+          requestStats = httpBackend.whenGET(constants.backend + 'sticker/statistics/').respond(200, statistics);
+
+          dashboardCtrl = $controller('DashboardCtrl', { $scope: scope, Constants: constants });
 
           httpBackend.flush();
+
+          set_data();
       }));
 
       afterEach(function() {
-          //httpBackend.verifyNoOutstandingExpectation();
-          //httpBackend.verifyNoOutstandingRequest();
+          httpBackend.verifyNoOutstandingExpectation();
+          httpBackend.verifyNoOutstandingRequest();
       });
 
       it('should DashboardCtrl be defined', inject(function() {
           expect(dashboardCtrl).toBeDefined();
       }));
-
-      var duplicated = [{"sticker": {"image": "1.jpg", "team": "Especiais", "number": "1", "name": "", "order": 1}, "user": 1, "quantity": 3}, {"sticker": {"image": "2.jpg", "team": "Especiais", "number": "2", "name": "", "order": 2}, "user": 1, "quantity": 1}];
-
-      var needed = [{"sticker": {"image": "1.jpg", "team": "Especiais", "number": "1", "name": "", "order": 1}, "user": 1}, {"sticker": {"image": "2.jpg", "team": "Especiais", "number": "2", "name": "", "order": 2}, "user": 1}];
-
-      var statistics = {"collected": 645, "teams": {"Camar\u00f5es": 0, "Holanda": 0, "It\u00e1lia": 0, "Costa Rica": 0, "Ir\u00e3": 0, "Costa do Marfim": 0, "Argentina": 0, "Espanha": 0, "Fran\u00e7a": 0, "Est\u00e1dios": 0, "Col\u00f4mbia": 0, "Chile": 0, "Especiais": 4, "Equador": 0, "B\u00e9lgica": 0, "Jap\u00e3o": 0, "Brasil": 0, "Sui\u00e7a": 0, "Inglaterra": 0, "Cro\u00e1cia": 0, "Estados Unidos": 0, "Alg\u00e9ria": 0, "Propaganda": 0, "Honduras": 0, "Portugal": 0, "Nig\u00e9ria": 0, "Gr\u00e9cia": 0, "Cor\u00e9ia": 0, "R\u00fassia": 0, "Gana": 0, "Alemanha": 0, "Uruguai": 0, "Austr\u00e1lia": 0, "B\u00f3snia Herzegovina": 0, "M\u00e9xico": 0}, "missing": 4};
 
       it('should refresh duplicated stickers', inject(function() {
           scope.duplicated_stickers = undefined;
@@ -101,7 +108,7 @@ describe('myApp.dashboard module', function() {
 
       it('should be able to delete duplicated stickers', inject(function() {
           spyOn(scope, 'refreshDuplicated');
-          httpBackend.expectDELETE('http://0.0.0.0:8000/api/v1/sticker/1/duplicated/?sticker=2').respond(200, '');
+          httpBackend.expectDELETE(constants.backend + 'sticker/duplicated/?sticker=2').respond(200, '');
           scope.deleteDuplicated(1, duplicated);
           expect(scope.loadingDuplicated).toBeTruthy();
           expect(scope.errorDuplicated).toBeFalsy();
@@ -111,7 +118,7 @@ describe('myApp.dashboard module', function() {
 
       it('should be able to delete needed stickers', inject(function() {
           spyOn(scope, 'refreshNeeded');
-          httpBackend.expectDELETE('http://0.0.0.0:8000/api/v1/sticker/1/needed/?sticker=2').respond(200, '');
+          httpBackend.expectDELETE(constants.backend + 'sticker/needed/?sticker=2').respond(200, '');
           scope.deleteNeeded(1, needed);
           expect(scope.loadingNeeded).toBeTruthy();
           expect(scope.errorNeeded).toBeFalsy();
