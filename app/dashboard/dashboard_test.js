@@ -21,7 +21,7 @@ describe('myApp.dashboard module', function() {
           httpBackend = $httpBackend;
           scope = $rootScope.$new();
 
-          constants = {'backend': 'http://0.0.0.0:8000/api/v1/'}
+          constants = {'backend': 'http://0.0.0.0:8000/api/v1/'};
 
           requestDuplicated = httpBackend.whenGET(constants.backend + 'sticker/duplicated/').respond(200, duplicated);
           requestNeeded = httpBackend.whenGET(constants.backend + 'sticker/needed/').respond(200, needed);

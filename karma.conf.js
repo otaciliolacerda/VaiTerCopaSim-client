@@ -8,9 +8,11 @@ module.exports = function(config){
       'app/bower_components/angular-route/angular-route.js',
       'app/bower_components/angular-mocks/angular-mocks.js',
       'app/bower_components/angular-bootstrap/ui-bootstrap.js',
-      //'app/components/**/*.js',
+      'app/bower_components/ngstorage/ngStorage.js',
+      'app/bower_components/angular-facebook/lib/angular-facebook.js',
       'app/dashboard/*.js',
-      'app/modal_input/*.js'
+      'app/modal_input/*.js',
+      'app/login/*.js'
     ],
 
     autoWatch : true,

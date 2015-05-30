@@ -25,8 +25,14 @@ loginModule.config(['FacebookProvider', function(FacebookProvider) {
 }]);
 
 
-loginModule.controller('LoginCtrl', ['$location', '$rootScope', 'Facebook', '$http', 'Constants', '$localStorage',
-    function($location, $rootScope, Facebook, $http, Constants, $localStorage) {
+loginModule.controller('LoginCtrl', ['$scope', '$location', '$rootScope', 'Facebook', '$http', 'Constants', '$localStorage',
+    function($scope, $location, $rootScope, Facebook, $http, Constants, $localStorage) {
+
+        $scope.showAlert = false;
+
+        $scope.closeAlert = function() {
+            $scope.showAlert = false;
+        };
 
         /**
          * Watch for Facebook to be ready.
@@ -52,10 +58,12 @@ loginModule.controller('LoginCtrl', ['$location', '$rootScope', 'Facebook', '$ht
                     console.log('MyApp Token: ', data.access_token);
                     $localStorage.token = data;
                     $location.path("/dashboard");
+                }).error(function(data, status) {
+                    $scope.showAlert = true;
                 });
         };
 
-        $rootScope.login = function() {
+        $scope.login = function() {
             if(!$rootScope.isLoggedIn()) {
 
                 Facebook.getLoginStatus(function(response) {
@@ -68,8 +76,10 @@ loginModule.controller('LoginCtrl', ['$location', '$rootScope', 'Facebook', '$ht
                             console.log('Facebook Login Response: ', response);
                             if (response.status == 'connected') {
                                 myAppLogin(response.authResponse.accessToken);
+                            } else {
+                                $scope.showAlert = true;
                             }
-                        });ß
+                        });
                         $location.path("/login");
                     }
 
