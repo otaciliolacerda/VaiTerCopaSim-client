@@ -1,7 +1,7 @@
 /**
  * Created by otacilio on 5/30/15.
  */
-//'use strict';
+'use strict';
 
 describe('myApp.login module', function() {
 

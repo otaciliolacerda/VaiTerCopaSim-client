@@ -7,6 +7,8 @@ var loginModule = angular.module('myApp.login', ['ngRoute', 'facebook', 'ngStora
 
 loginModule.run(['$location', '$rootScope', '$localStorage', function($location, $rootScope, $localStorage) {
 
+    $rootScope.user = $localStorage.user;
+
     $rootScope.isLoggedIn = function() {
         return ($localStorage.token ? true : false);
     };
