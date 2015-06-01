@@ -9,7 +9,7 @@
                 <button class="btn btn-sm btn-danger btn_delete_sticker" ng-show="show_del && mutable" ng-click="deleteFn({index: $index, data: data})">
                     <span class="glyphicon glyphicon-trash"></span>
                 </button>
-                <img class="sticker_image" ng-src="{{ 'stickers/'+ sticker.image }}" width="100" height="131">
+                <img class="sticker_image" ng-src="{{ sticker.image }}" width="100" height="131">
 
                 <span class="badge sticker_quantity" ng-show="quantity>1">{{ quantity }}</span>
 

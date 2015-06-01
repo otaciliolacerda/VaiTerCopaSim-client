@@ -23,7 +23,7 @@ loginModule.run(['$location', '$rootScope', '$localStorage', function($location,
 }]);
 
 loginModule.config(['FacebookProvider', function(FacebookProvider) {
-   FacebookProvider.init('768817646470532');
+   FacebookProvider.init('YOUR_FACEBOOK_APP_ID');
 }]);
 
 
@@ -101,7 +101,6 @@ loginModule.controller('LoginCtrl', ['$scope', '$location', '$rootScope', 'Faceb
                  */
                 $rootScope.$apply(function() {
                     $localStorage.user = response;
-                    console.log('me');
                     console.log(response);
                 });
 
