@@ -1,4 +1,4 @@
-<div style="text-align: center;">
+<div class="text-center">
     <h1><strong>Troca-Copa!</strong></h1>
     <br/><h2>Vai ter copa sim! </h2>
     <p>Complete your album quickly!</p>
@@ -7,6 +7,8 @@
     You do not need to register just log in with your Facebook!
     <br/><br/>
 
-    <button class="btn btn-lg" ng-click="login()">Log In</button>
-    <alert type="danger" ng-show="showAlert" close="closeAlert()">Something bad happened, please notify the webmaster!</alert>
+    <a class="btn btn-social btn-facebook" ng-click="login()">
+        <i class="fa fa-facebook"></i> Sign in with Facebook
+    </a>
+    <alert class="alert alert-error" type="danger" ng-show="showAlert" close="closeAlert()">Something bad happened, please notify the webmaster!</alert>
 </div>
