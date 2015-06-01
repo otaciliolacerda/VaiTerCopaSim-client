@@ -1,17 +1,7 @@
 <div id="div_stats">
     <h1>Stats</h1>
 
-    <div class="sticker_refresh_spinner" ng-show="loading">
-        <div class="spinner"></div>
-        Updating...
-    </div>
-
-    <div class="sticker_refresh_spinner" ng-show="error">
-        <alert type="danger">Something went wrong in the server!</alert>
-        <button type="button" class="btn btn-primary" ng-click="refreshFn()">
-            Click to Refresh!
-        </button>
-    </div>
+    <request-handler loading="loading" error="error" refresh-fn="refreshFn()"></request-handler>
 
     <div id="div_stats_container" ng-hide="loading || error">
         <p>If you did not forget anything you have <strong><span id="total_stickers_collected">{{ data.collected }}</span></strong> stickers!</p>

@@ -1,0 +1,12 @@
+<div>
+    <div class="refresh_spinner" ng-show="loading">
+        <div class="spinner"></div>
+        Updating...
+    </div>
+    <div class="refresh_spinner" ng-show="error">
+        <alert type="danger">Something went wrong in the server!</alert>
+        <button type="button" class="btn btn-primary" ng-click="refreshFn()">
+            Click to Refresh!
+        </button>
+    </div>
+</div>

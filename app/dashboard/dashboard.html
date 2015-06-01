@@ -4,10 +4,12 @@
     </div>
 
     <div class="text-center">
-        <h1>Send <strong>this link</strong> to your friends! </h1>
+        <h1>Send <strong><a ng-href="{{ profile_link }}">this link</a></strong> to your friends! </h1>
     </div>
 
-    <stickers id="duplicated" text="'My duplicated stickers'" data="duplicated_stickers" loading="loadingDuplicated" error="errorDuplicated" refresh-fn="refreshDuplicated()" delete-fn="deleteDuplicated(index, data)"></stickers>
-    <stickers id="needed" text="'My needed stickers'" data="needed_stickers" loading="loadingNeeded" error="errorNeeded" refresh-fn="refreshNeeded()" delete-fn="deleteNeeded(index, data)"></stickers>
+    <stickers text="'My duplicated stickers'" data="duplicated_stickers" loading="loadingDuplicated" error="errorDuplicated" refresh-fn="refreshDuplicated()" delete-fn="deleteDuplicated(index, data)" mutable="true"></stickers>
+
+    <stickers text="'My needed stickers'" data="needed_stickers" loading="loadingNeeded" error="errorNeeded" refresh-fn="refreshNeeded()" delete-fn="deleteNeeded(index, data)" mutable="true"></stickers>
+
     <stats data="statistics" loading="loadingStatistics" error="errorStatistics" refresh-fn="refreshStatistics()"></stats>
 </div>

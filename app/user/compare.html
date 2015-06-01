@@ -1,0 +1,22 @@
+<h1>User Collection
+    <a href="https://www.facebook.com/{{ data.other_user.uid }}">
+        {{ data.other_user.name }}
+        <span class="zocial facebook icon" style="vertical-align: middle; margin-left: 0.5em;"></span>
+        <img ng-src="http://graph.facebook.com/{{ data.other_user.uid }}/picture?type=square">
+    </a>
+</h1>
+
+<request-handler loading="loading" error="error" refresh-fn="refreshCompare()"></request-handler>
+
+<tabset ng-hide="loading || error">
+    <tab heading="Compare">
+        <stickers text="'Of my interest'" data="data.my_interest"></stickers>
+        <stickers text="'What you can offer:'" data="data.other_interest"></stickers>
+    </tab>
+
+    <tab heading="Colletion">
+        <stickers text="'Duplicated stickers'" data="data.other_duplicated"></stickers>
+        <stickers text="'Needed stickers'" data="data.other_needed"></stickers>
+        <stats data="data.other_stats"></stats>
+    </tab>
+</tabset>

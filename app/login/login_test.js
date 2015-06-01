@@ -78,7 +78,7 @@ describe('myApp.login module', function() {
 
             });
 
-            //Since the isLoggedIn function is inside a run block it will be mock
+            //Since the isLoggedIn function is inside a run block it will be mocked
             rootScope.isLoggedIn = function() {
                 return (localStorage.token ? true : false);
             };

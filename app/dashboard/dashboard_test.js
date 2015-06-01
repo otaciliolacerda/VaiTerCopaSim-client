@@ -10,9 +10,9 @@ describe('myApp.dashboard module', function() {
       var constants, duplicated, needed, statistics;
 
       var set_data = function() {
-          duplicated = [{"sticker": {"image": "1.jpg", "team": "Especiais", "number": "1", "name": "", "order": 1}, "user": 1, "quantity": 3}, {"sticker": {"image": "2.jpg", "team": "Especiais", "number": "2", "name": "", "order": 2}, "user": 1, "quantity": 1}];
+          duplicated = [{"image": "1.jpg", "team": "Especiais", "number": "1", "name": "", "order": 1, "quantity": 3}, {"image": "2.jpg", "team": "Especiais", "number": "2", "name": "", "order": 2, "quantity": 1}];
 
-          needed = [{"sticker": {"image": "1.jpg", "team": "Especiais", "number": "1", "name": "", "order": 1}, "user": 1}, {"sticker": {"image": "2.jpg", "team": "Especiais", "number": "2", "name": "", "order": 2}, "user": 1}];
+          needed = [{"image": "1.jpg", "team": "Especiais", "number": "1", "name": "", "order": 1}, {"image": "2.jpg", "team": "Especiais", "number": "2", "name": "", "order": 2}];
 
           statistics = {"collected": 645, "teams": {"Camar\u00f5es": 0, "Holanda": 0, "It\u00e1lia": 0, "Costa Rica": 0, "Ir\u00e3": 0, "Costa do Marfim": 0, "Argentina": 0, "Espanha": 0, "Fran\u00e7a": 0, "Est\u00e1dios": 0, "Col\u00f4mbia": 0, "Chile": 0, "Especiais": 4, "Equador": 0, "B\u00e9lgica": 0, "Jap\u00e3o": 0, "Brasil": 0, "Sui\u00e7a": 0, "Inglaterra": 0, "Cro\u00e1cia": 0, "Estados Unidos": 0, "Alg\u00e9ria": 0, "Propaganda": 0, "Honduras": 0, "Portugal": 0, "Nig\u00e9ria": 0, "Gr\u00e9cia": 0, "Cor\u00e9ia": 0, "R\u00fassia": 0, "Gana": 0, "Alemanha": 0, "Uruguai": 0, "Austr\u00e1lia": 0, "B\u00f3snia Herzegovina": 0, "M\u00e9xico": 0}, "missing": 4};
       };

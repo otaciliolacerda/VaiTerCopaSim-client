@@ -4,6 +4,8 @@ var dashboard = angular.module('myApp.dashboard', ['ngRoute', 'myApp.modalInput'
 
 dashboard.controller('DashboardCtrl', ["$scope", '$http', 'Constants', function($scope, $http, Constants) {
 
+    $scope.profile_link = '#/compare/' + ($scope.user ? $scope.user.id : null);
+
     $scope.loadingDuplicated = true;
     $scope.loadingNeeded = true;
     $scope.loadingStatistics = true;
@@ -13,7 +15,7 @@ dashboard.controller('DashboardCtrl', ["$scope", '$http', 'Constants', function(
     $scope.errorStatistics = false;
 
     $scope.deleteDuplicated = function(index, data) {
-        var obj = data[index];
+        var sticker = data[index];
 
         $scope.loadingDuplicated = true;
         $scope.errorDuplicated = false;
@@ -21,7 +23,7 @@ dashboard.controller('DashboardCtrl', ["$scope", '$http', 'Constants', function(
         $http({
             method: 'DELETE',
             url: Constants.backend + 'sticker/duplicated/',
-            params: {sticker: obj.sticker.number}
+            params: {sticker: sticker.number}
         }).success(function(data){
             $scope.refreshDuplicated();
         }).error(function() {
@@ -31,7 +33,7 @@ dashboard.controller('DashboardCtrl', ["$scope", '$http', 'Constants', function(
     };
 
     $scope.deleteNeeded = function(index, data) {
-        var obj = data[index];
+        var sticker = data[index];
 
         $scope.loadingNeeded = true;
         $scope.errorNeeded = false;
@@ -39,7 +41,7 @@ dashboard.controller('DashboardCtrl', ["$scope", '$http', 'Constants', function(
         $http({
             method: 'DELETE',
             url: Constants.backend + 'sticker/needed/',
-            params: {sticker: obj.sticker.number}
+            params: {sticker: sticker.number}
         }).success(function(data){
             $scope.refreshNeeded();
         }).error(function() {
@@ -100,31 +102,3 @@ dashboard.controller('DashboardCtrl', ["$scope", '$http', 'Constants', function(
     refreshData();
 
 }]);
-
-dashboard.directive("stickers", function() {
-    return {
-        restrict: 'E',
-        templateUrl: "dashboard/partials/stickers.html",
-        scope: {
-            text: "=",
-            data: "=",
-            loading: "=",
-            error: "=",
-            refreshFn: "&",
-            deleteFn: "&"
-        }
-   };
-});
-
-dashboard.directive("stats", function() {
-    return {
-        restrict: 'E',
-        templateUrl: "dashboard/partials/stats.html",
-        scope: {
-            data: "=",
-            loading: "=",
-            error: "=",
-            refreshFn: "&"
-        }
-    };
-});

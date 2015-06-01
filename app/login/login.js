@@ -59,6 +59,7 @@ loginModule.controller('LoginCtrl', ['$scope', '$location', '$rootScope', 'Faceb
                     $rootScope.me();
                     console.log('MyApp Token: ', data.access_token);
                     $localStorage.token = data;
+                    $rootScope.user = $localStorage.user = data.user;
                     $location.path("/dashboard");
                 }).error(function(data, status) {
                     $scope.showAlert = true;

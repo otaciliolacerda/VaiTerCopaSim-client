@@ -12,7 +12,8 @@ module.exports = function(config){
       'app/bower_components/angular-facebook/lib/angular-facebook.js',
       'app/dashboard/*.js',
       'app/modal_input/*.js',
-      'app/login/*.js'
+      'app/login/*.js',
+      'app/user/*.js'
     ],
 
     autoWatch : true,

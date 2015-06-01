@@ -1,0 +1,20 @@
+<h1 class="text-center">Users</h1>
+
+<request-handler class="text-center" loading="loading" error="error" refresh-fn="refreshSearch()"></request-handler>
+
+<div class="div_users text-center" ng-hide="loading || error">
+
+    <div class="div_user" ng-repeat="user in data">
+        <a href="#/compare/{{ user.id }}">
+            <span class="span_link_placeholder"></span>
+            <div class="div_user_profile">
+                <img ng-src="http://graph.facebook.com/{{ user.uid }}/picture?type=square">
+            </div>
+            <h3>{{ user.name }}</h3>
+            <div class="div_user_stats text-center">
+                <span class="label_dupes_count">Duplicateds of your interest: {{ user.duplicated_count }}</span><br/>
+            </div>
+        </a>
+    </div>
+
+</div>

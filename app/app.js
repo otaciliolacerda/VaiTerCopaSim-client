@@ -4,7 +4,8 @@
 var myAppModule = angular.module('myApp', [
   'ngRoute',
   'myApp.dashboard',
-  'myApp.login'
+  'myApp.login',
+  'myApp.user'
 ]);
 
 myAppModule.constant('Constants', {'backend': 'http://0.0.0.0:8000/api/v1/'} );
@@ -43,6 +44,12 @@ myAppModule.config(['$routeProvider', '$httpProvider',
         }).when('/login', {
             templateUrl: 'login/login.html',
             controller: 'LoginCtrl'
+        }).when('/search', {
+            templateUrl: 'user/search.html',
+            controller: 'SearchCtrl'
+        }).when('/compare/:id', {
+            templateUrl: 'user/compare.html',
+            controller: 'CompareCtrl'
         }).otherwise({redirectTo: '/dashboard'});
 }]);
 
@@ -60,3 +67,45 @@ myAppModule.run(['$rootScope', '$location', '$localStorage', function($rootScope
         }
     });
 }]);
+
+myAppModule.directive("stickers", function() {
+    return {
+        restrict: 'E',
+        templateUrl: "partials/stickers.html",
+        scope: {
+            text: "=",
+            data: "=",
+            loading: "=",
+            error: "=",
+            refreshFn: "&",
+            deleteFn: "&",
+            mutable: "="
+        }
+    };
+});
+
+myAppModule.directive("stats", function() {
+    return {
+        restrict: 'E',
+        templateUrl: "partials/stats.html",
+        scope: {
+            data: "=",
+            loading: "=",
+            error: "=",
+            refreshFn: "&"
+        }
+    };
+});
+
+myAppModule.directive("requestHandler", function() {
+    return {
+        restrict: 'E',
+        templateUrl: "partials/request_handler.html",
+        scope: {
+            loading: "=",
+            error: "=",
+            refreshFn: "&"
+        }
+    };
+});
+
