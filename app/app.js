@@ -8,7 +8,7 @@ var myAppModule = angular.module('myApp', [
   'myApp.user'
 ]);
 
-myAppModule.constant('Constants', {'backend': 'http://0.0.0.0:8000/api/v1/'} );
+myAppModule.constant('Constants', {'backend': 'YOUR_API_LINK'} );
 
 myAppModule.factory('authInterceptor', ['$rootScope', '$q', '$localStorage', 'Constants',
     function ($rootScope, $q, $localStorage, Constants) {

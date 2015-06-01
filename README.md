@@ -34,6 +34,7 @@ Dependencies
 Environment Variables
 ---
 In app/login.login.js you need to set the Facebook App ID.
+In app/app.js you need to set the backend url to access the RESTFull API.
 
 Installation
 ---
