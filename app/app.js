@@ -17,8 +17,8 @@ myAppModule.factory('authInterceptor', ['$rootScope', '$q', '$localStorage', 'Co
             //It will only intercept call to the API
             if (config.url.indexOf(Constants.backend) === 0) {
                 config.headers = config.headers || {};
-                if ($localStorage.token) {
-                    config.headers.Authorization = 'Bearer ' + $localStorage.token.access_token;
+                if ($localStorage.client) {
+                    config.headers.Authorization = 'Bearer ' + $localStorage.client.access_token;
                 }
             }
             return config;
@@ -57,7 +57,7 @@ myAppModule.config(['$routeProvider', '$httpProvider',
 myAppModule.run(['$rootScope', '$location', '$localStorage', function($rootScope, $location, $localStorage) {
 
     $rootScope.$on( "$routeChangeStart", function(event, next, current) {
-        console.log($localStorage.token ? $localStorage.token.access_token : 'UNDEFINED');
+        //console.log($localStorage.client ? $localStorage.client.access_token : 'UNDEFINED');
         if (!$rootScope.isLoggedIn()) {
             // no logged user, redirect to /login
             if ( next.templateUrl === "login/login.html") {

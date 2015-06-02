@@ -109,7 +109,7 @@ describe('myApp.login module', function() {
                 expect(localStorage.token).toBeUndefined();
                 scope.login();
                 httpBackend.flush();
-                expect(localStorage.token.access_token).toEqual(myAppToken);
+                expect(localStorage.client.access_token).toEqual(myAppToken);
                 expect(scope.showAlert).toBeFalsy();
             }));
 
@@ -148,7 +148,7 @@ describe('myApp.login module', function() {
                 expect(localStorage.token).toBeUndefined();
                 scope.login();
                 httpBackend.flush();
-                expect(localStorage.token.access_token).toEqual(myAppToken);
+                expect(localStorage.client.access_token).toEqual(myAppToken);
                 expect(scope.showAlert).toBeFalsy();
             }));
 

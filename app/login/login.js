@@ -7,16 +7,15 @@ var loginModule = angular.module('myApp.login', ['ngRoute', 'facebook', 'ngStora
 
 loginModule.run(['$location', '$rootScope', '$localStorage', function($location, $rootScope, $localStorage) {
 
-    $rootScope.user = $localStorage.user;
+    $rootScope.user = $localStorage.client ? $localStorage.client.user : '';
 
     $rootScope.isLoggedIn = function() {
-        return ($localStorage.token ? true : false);
+        return ($localStorage.client ? true : false);
     };
 
     //Revokes the token but do not logout of facebook (the user will only be logged out of the app)
     $rootScope.logout = function() {
-        delete $localStorage.user;
-        delete $localStorage.token;
+        delete $localStorage.client;
         $location.path("/login");
     }
 
@@ -56,10 +55,9 @@ loginModule.controller('LoginCtrl', ['$scope', '$location', '$rootScope', 'Faceb
                 params: {access_token: token}
             }).
                 success(function(data){
-                    $rootScope.me();
-                    console.log('MyApp Token: ', data.access_token);
-                    $localStorage.token = data;
-                    $rootScope.user = $localStorage.user = data.user;
+                    //console.log('MyApp Token: ', data.access_token);
+                    $localStorage.client = data;
+                    $rootScope.user = data.user;
                     $location.path("/dashboard");
                 }).error(function(data, status) {
                     $scope.showAlert = true;
@@ -71,12 +69,12 @@ loginModule.controller('LoginCtrl', ['$scope', '$location', '$rootScope', 'Faceb
 
                 Facebook.getLoginStatus(function(response) {
 
-                    console.log('Facebook Status Response: ', response);
+                    //console.log('Facebook Status Response: ', response);
                     if(response.status === 'connected') {
                         myAppLogin(response.authResponse.accessToken);
                     } else {
                         Facebook.login(function (response) {
-                            console.log('Facebook Login Response: ', response);
+                            //console.log('Facebook Login Response: ', response);
                             if (response.status == 'connected') {
                                 myAppLogin(response.authResponse.accessToken);
                             } else {
@@ -89,22 +87,9 @@ loginModule.controller('LoginCtrl', ['$scope', '$location', '$rootScope', 'Faceb
                 });
 
             } else {
-                console.log('You are logged in, do not need to call login.');
+                //console.log('You are logged in, do not need to call login.');
                 $location.path("/dashboard");
             };
-        };
-
-        $rootScope.me = function() {
-            Facebook.api('/me', function(response) {
-                /**
-                 * Using $scope.$apply since this happens outside angular framework.
-                 */
-                $rootScope.$apply(function() {
-                    $localStorage.user = response;
-                    console.log(response);
-                });
-
-            });
         };
 
 }]);
