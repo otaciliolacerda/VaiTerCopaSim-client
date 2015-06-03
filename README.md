@@ -1,6 +1,5 @@
 VaiTerCopaSim - Client
 ===
-
 Personal project to study Django, AngularJS, RESTFull web services and One Page Apps. This application is a sticker exchange facilitator of the world cup album.
 
 This project was built on top of the [angular-seed](https://github.com/wormangel/VaiTerCopaSim) — the seed for AngularJS apps
@@ -8,6 +7,7 @@ This project was built on top of the [angular-seed](https://github.com/wormangel
 * [Original project](https://github.com/wormangel/VaiTerCopaSim)
 * [VaiTerCopaSim-server](https://github.com/otaciliolacerda/VaiTerCopaSim-server) - Server API made in Django
 
+* See it running at [here](http://otaciliolacerda.pythonanywhere.com/) at PythonAnywhere!
 
 Features
 ---
@@ -45,5 +45,5 @@ npm install
 ```
 
 License
---
+---
 Do whatever you want. =)
