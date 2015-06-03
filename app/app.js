@@ -28,7 +28,9 @@ myAppModule.factory('authInterceptor', ['$rootScope', '$q', '$localStorage', 'Co
                 // handle the case where the user is not authenticated
                 $rootScope.logout();
             }
-            return response || $q.when(response);
+            //Bug http://stackoverflow.com/questions/15888162/angularjs-http-error-function-never-called
+            //return response || $q.when(response);
+            return $q.reject(response);
         }
     };
 }]);
