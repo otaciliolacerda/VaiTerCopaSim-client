@@ -7,7 +7,7 @@ This project was built on top of the [angular-seed](https://github.com/wormangel
 * [Original project](https://github.com/wormangel/VaiTerCopaSim)
 * [VaiTerCopaSim-server](https://github.com/otaciliolacerda/VaiTerCopaSim-server) - Server API made in Django
 
-* See it running at [here](http://otaciliolacerda.pythonanywhere.com/) at PythonAnywhere!
+* See it running [here](http://otaciliolacerda.pythonanywhere.com/) at PythonAnywhere!
 
 Features
 ---
